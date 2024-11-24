@@ -1,33 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+    // Fetch the array of podcasts with a useEffect
+    useEffect(() => {
+      const fetchPreviews = async () => {
+        try {
+          //console log to check the previews are being pulled
+          console.log('Fetching podcast previews...');
+          const response = await fetch('https://podcast-api.netlify.app/');
+          const data = await response.json();
+          //console log for if successful
+          console.log('Fetched previews:', data);
+          //catch error incase the request fails
+        } catch (error) {
+          console.error('Error fetching previews:', error);
+        }
+      };
+  //call the fetchPreviews const
+      fetchPreviews();
+    }, []);  // Empty dependency array means this will run once after the component mounts
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+<h1>Default text</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
     </>
   )
 }
