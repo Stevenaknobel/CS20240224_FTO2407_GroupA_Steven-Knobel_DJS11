@@ -40,7 +40,32 @@ function App() {
                 <h2>Title: {podcast.title}</h2>
                 <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
                 <p>Description: {podcast.description}</p>
-                <p>Genres: {podcast.genres}</p>
+                <div className="podcast-genres">
+                  {podcast.genres && podcast.genres.length > 0 ? (
+                  podcast.genres.map((genreId) => {
+                    // Map genreId to genre name based on the readme
+                    const genreNames = {
+                      1: "Personal Growth",
+                      2: "Investigative Journalism",
+                      3: "History",
+                      4: "Comedy",
+                      5: "Entertainment",
+                      6: "Business",
+                      7: "Fiction",
+                      8: "News",
+                      9: "Kids and Family"
+                    };
+
+                    return (
+                      <span key={genreId} className="podcast-genre">
+                        {genreNames[genreId] || "Unknown Genre"}
+                      </span>
+                    );
+                  })
+                ) : (
+                  <span>No genres available</span>
+                )}
+              </div>
                 <p>Seasons: {podcast.seasons}</p>
         </div>
           ))

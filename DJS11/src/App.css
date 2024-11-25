@@ -4,13 +4,24 @@
   padding: 2rem;
   text-align: center;
 }
-
+/*styling for the podcast card*/
 .podcast-card {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
-
+/*styling for the podcast image*/
 .podcast-image {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 250px;
+  max-height: 250px;
+}
+/*general styling for the genres*/
+.podcast-genres {
+  margin-top: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+/*individual styling for each genre*/
+.podcast-genre {
+ /* Ensures each genre is on a new line */
+  display: block;
 }
