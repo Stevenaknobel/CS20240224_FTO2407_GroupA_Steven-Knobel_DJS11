@@ -45,6 +45,22 @@ function App() {
     setSelectedPodcast(null);
   };
 
+  const fetchPodcastDetails = async () => {
+    try {
+      console.log('Fetching details for podcast ID: 10716');
+      const response = await fetch('https://podcast-api.netlify.app/id/10716');
+      const detailedData = await response.json();
+      console.log('Detailed podcast data:', detailedData); // Log the detailed response to the console
+    } catch (error) {
+      console.error('Error fetching detailed data:', error);
+    }
+  };
+
+  // Call fetchPodcastDetails to log the data when the component mounts
+  useEffect(() => {
+    fetchPodcastDetails();
+  }, []);
+
 
   return (
     <>
@@ -69,7 +85,7 @@ function App() {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h2>{selectedPodcast.title}</h2>
-          <p>Description: {selectedPodcast.description}</p>
+          <p><strong>Description:</strong> {selectedPodcast.description}</p>
                 <div className="podcast-genres">
                   {selectedPodcast.genres && selectedPodcast.genres.length > 0 ? (
                   selectedPodcast.genres.map((genreId) => {
@@ -87,16 +103,18 @@ function App() {
                     };
 
                     return (
+                      <div><strong>Genre</strong>
                       <span key={genreId} className="podcast-genre">
                         {genreNames[genreId] || "Unknown Genre"}
                       </span>
+                      </div>
                     );
                   })
                 ) : (
                   <span>No genres available</span>
                 )}
               </div>
-                <p>Seasons: {selectedPodcast.seasons}</p>
+                <p><strong>Seasons:{selectedPodcast.seasons}</strong></p>
                 <button onClick={closeModal}>Close</button>
 
           </div>
