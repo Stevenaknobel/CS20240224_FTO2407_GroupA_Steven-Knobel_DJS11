@@ -7,6 +7,10 @@ function App() {
 
   //State to store the fetched podcasts previews
   const [podcasts, setPodcasts] = useState([]);
+  //State for the selected podcast for the modal
+  const [selectedPodcast, setSelectedPodcast] = useState(null);
+  //State to manage the modal's visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Fetch the array of podcasts with a useEffect
     useEffect(() => {
@@ -29,20 +33,46 @@ function App() {
       fetchPreviews();
     }, []);  // Empty dependency array means this will run once after the component mounts
 
+  // Handle opening the modal and setting the selected podcast
+  const openModal = (podcast) => {
+    setSelectedPodcast(podcast);
+    setIsModalOpen(true);
+  };
+
+  // Handle closing the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPodcast(null);
+  };
+
+
   return (
     <>
-      <div>
+      <div className="podcasts-container">
         <h1>Podcasts list</h1>
-        <div>
+        <div className="podcasts-list">
           {podcasts.length > 0 ? (
             podcasts.map((podcast) => (
-              <div key={podcast.id} className="podcast-card">
-                <h2>Title: {podcast.title}</h2>
-                <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
-                <p>Description: {podcast.description}</p>
+              <div key={podcast.id} className="podcast-card" onClick={() => openModal(podcast)}>
+                <div className="podcast-image-container">
+                  <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
+                </div>
+              </div>
+          ))
+          ) : (
+            <p>loading podcasts...</p>
+          )}
+        </div>
+      </div>
+
+      {isModalOpen && selectedPodcast && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <h2>{selectedPodcast.title}</h2>
+          <p>Description: {selectedPodcast.description}</p>
                 <div className="podcast-genres">
-                  {podcast.genres && podcast.genres.length > 0 ? (
-                  podcast.genres.map((genreId) => {
+                  {selectedPodcast.genres && selectedPodcast.genres.length > 0 ? (
+                  selectedPodcast.genres.map((genreId) => {
                     // Map genreId to genre name based on the readme
                     const genreNames = {
                       1: "Personal Growth",
@@ -66,14 +96,12 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
-                <p>Seasons: {podcast.seasons}</p>
+                <p>Seasons: {selectedPodcast.seasons}</p>
+                <button onClick={closeModal}>Close</button>
+
+          </div>
         </div>
-          ))
-          ) : (
-            <p>loading podcasts...</p>
-        )}
-      </div>
-      </div>
+      )}
     </>
   )
 }

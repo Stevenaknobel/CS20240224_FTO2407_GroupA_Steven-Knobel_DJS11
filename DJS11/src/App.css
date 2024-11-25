@@ -4,22 +4,82 @@
   padding: 2rem;
   text-align: center;
 }
+/* General styling for podcast list */
+.podcasts-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
 /*styling for the podcast card*/
-.podcast-card {
+.podcast-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
+
+/*styling to show the card is clickable with a pointer*/
+.podcast-card {
+  position: relative;
+  cursor: pointer;
+}
+
 /*styling for the podcast image*/
+.podcast-image-container {
+  position: relative;
+}
 .podcast-image {
+  width: 100%;
+  height: auto;
   max-width: 250px;
   max-height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
 }
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 8px;
+  text-align: left;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005bb5;
+}
+
 /*general styling for the genres*/
 .podcast-genres {
   margin-top: 10px;
   padding-left: 0;
   list-style: none;
 }
+
 /*individual styling for each genre*/
 .podcast-genre {
  /* Ensures each genre is on a new line */
