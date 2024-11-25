@@ -1,22 +1,21 @@
 #root {
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
   text-align: center;
+  width: 100%
 }
 /* General styling for podcast list */
 .podcasts-container {
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
   text-align: center;
+  padding: 0 20px;
 }
 /*styling for the podcast card*/
 .podcasts-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 5px;
   justify-items: center;
-  padding: 0 15px;
-  margin: 0 auto;
+  gap:5px;
+  padding: 20px;
 }
 
 /*styling to show the card is clickable with a pointer*/
@@ -25,7 +24,6 @@
   cursor: pointer;
   max-width: 250px;
   width: 100%;
-  margin: 0;
 }
 
 /*styling for the podcast image*/

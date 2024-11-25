@@ -121,7 +121,11 @@ function App() {
         <h1>Podcasts list</h1>
         <div className="podcasts-list">
           {podcasts.length > 0 ? (
-            podcasts.map((podcast) => (
+            podcasts
+            //sort the podcasts alphabetically
+            .sort((a, b) => a.title.localeCompare(b.title))
+            //map the podcasts from the array
+            .map((podcast) => (
               <div key={podcast.id} className="podcast-card" onClick={() => openModal(podcast)}>
                 <div className="podcast-image-container">
                   <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
