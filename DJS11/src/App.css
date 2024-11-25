@@ -49,7 +49,8 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top:20px;
 }
 
 .modal-content {
@@ -59,8 +60,12 @@
   width: 100%;
   border-radius: 8px;
   text-align: left;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 button {
@@ -97,7 +102,6 @@ color: rgb(1, 1, 66);
 
 .episodes-list {
   overflow-y: auto;
-  max-height: 500px;
 }
 /*disable body scrolling when the modal is open*/
 body.modal-open {
@@ -117,8 +121,6 @@ body.modal-open {
   /* Max width to avoid stretching too far */
   max-width: 600px; 
   background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   /* Ensure it's on top of other content */
