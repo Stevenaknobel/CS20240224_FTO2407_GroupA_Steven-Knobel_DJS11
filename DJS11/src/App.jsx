@@ -234,9 +234,6 @@ function App() {
             <source src={selectedEpisode.file} type="audio/mp3"/>
             Your browser does not support that audio element
           </audio>
-          <button onClick={() => setIsPlaying(!isPlaying)}>
-            {isPlaying ? "Pause" : "Play"}
-          </button>
         </div>
       )}
     </>

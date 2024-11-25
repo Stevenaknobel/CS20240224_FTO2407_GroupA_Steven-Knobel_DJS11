@@ -103,3 +103,25 @@ color: rgb(1, 1, 66);
 body.modal-open {
   overflow: hidden;
 }
+
+/*Style audio player to be on the bottom of the screen and always on top*/
+.audio-player {
+  position: fixed;
+  /* Stick to the bottom of the viewport */
+  bottom: 0; 
+  /* Center horizontally */
+  left: 50%; 
+  transform: translateX(-50%);
+  /* Full width of the screen */
+  width: 100%; 
+  /* Max width to avoid stretching too far */
+  max-width: 600px; 
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* Ensure it's on top of other content */
+  z-index: 1000; 
+  box-sizing: border-box;
+}
