@@ -36,8 +36,9 @@ function App() {
         <div>
           {podcasts.length > 0 ? (
             podcasts.map((podcast) => (
-              <div key={podcast.id}>
+              <div key={podcast.id} className="podcast-card">
                 <h2>Title: {podcast.title}</h2>
+                <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
                 <p>Description: {podcast.description}</p>
                 <p>Genres: {podcast.genres}</p>
                 <p>Seasons: {podcast.seasons}</p>
