@@ -223,7 +223,14 @@ function App() {
       {selectedEpisode && (
         <div className="audio-player">
           <h3>Now Playing: {selectedEpisode.title}</h3>
-          <audio controls autoPlay={isPlaying} onEnded={() => setIsPlaying(false)}>
+          <audio 
+          controls
+          autoPlay={isPlaying} 
+          //automatically stop the audio player when the episode ends
+          onEnded={() => setIsPlaying(false)}
+          //re-render the player when the episode is changed
+            key={selectedEpisode.episode}
+            >
             <source src={selectedEpisode.file} type="audio/mp3"/>
             Your browser does not support that audio element
           </audio>
