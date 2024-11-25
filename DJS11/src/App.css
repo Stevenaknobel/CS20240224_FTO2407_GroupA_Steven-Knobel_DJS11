@@ -1,27 +1,31 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 /* General styling for podcast list */
 .podcasts-container {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 /*styling for the podcast card*/
-.podcast-list {
+.podcasts-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 5px;
+  justify-items: center;
+  padding: 0 15px;
+  margin: 0 auto;
 }
 
 /*styling to show the card is clickable with a pointer*/
 .podcast-card {
   position: relative;
   cursor: pointer;
+  max-width: 250px;
+  width: 100%;
+  margin: 0;
 }
 
 /*styling for the podcast image*/
@@ -84,4 +88,9 @@ button:hover {
 .podcast-genre {
  /* Ensures each genre is on a new line */
   display: block;
+}
+
+h1 {
+font-size:xx-large;
+color: rgb(1, 1, 66);
 }
