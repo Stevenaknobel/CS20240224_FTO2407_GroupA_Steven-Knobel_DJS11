@@ -15,6 +15,11 @@ function App() {
   const [selectedSeason, setSelectedSeason] = useState(0);
   //State to store the episode of the selected season
   const [episodes, setEpisodes] = useState([]);
+  //State to store ALL the genres from the original API request and not the second one
+  const [podcastGenres, setPodcastGenres] = useState({});
+  //State for the currently selected genres based on the open modal
+  const [selectedGenres, setSelectedGenres] = useState([]);
+
 
     // Fetch the array of podcasts with a useEffect
     useEffect(() => {
@@ -26,6 +31,15 @@ function App() {
           const data = await response.json();
           //console log for if successful
           console.log('Fetched previews:', data);
+          //Save the genres from the first API response by its ID
+          const genresMap = {};
+          data.forEach(podcast => {
+            //Store genres in the map by the podcasts ID
+            genresMap[podcast.id] = podcast.genres;
+          });
+
+          //save the genres to state
+          setPodcastGenres(genresMap);
           //set the fetched data to state
           setPodcasts(data);
           //catch error incase the request fails
@@ -41,6 +55,10 @@ function App() {
   const openModal = (podcast) => {
     setSelectedPodcast(podcast);
     setIsModalOpen(true);
+    //use the stored genres from the first API request
+    const podcastGenresForSelected = podcastGenres[podcast.id] || [];
+    //this ensure that the genres are not pulling from the second API as they are different
+    setSelectedGenres(podcastGenresForSelected);
     fetchPodcastDetails(podcast.id);
   };
 
@@ -122,8 +140,9 @@ function App() {
           <h2>{selectedPodcast.title}</h2>
           <p><strong>Description:</strong> {selectedPodcast.description}</p>
                 <div className="podcast-genres">
-                  {selectedPodcast.genres && selectedPodcast.genres.length > 0 ? (
-                  selectedPodcast.genres.map((genreId, index) => {
+                  {selectedGenres && selectedGenres.length > 0 ? (
+                  selectedGenres.map((genreId, index) => {
+                    console.log("Genre ID:", genreId);
                     // Map genreId to genre name based on the readme
                     const genreNames = {
                       1: "Personal Growth",
@@ -136,11 +155,14 @@ function App() {
                       8: "News",
                       9: "Kids and Family"
                     };
+                    //Get the genre name or fallback to "Unknown"
+                    const genreName = genreNames[genreId] || "Unknown Genre";
 
                     return (
-                      <div><strong>Genre</strong>
-                      <span key={genreId || index} className="podcast-genre">
-                        {genreNames[genreId] || "Unknown Genre"}
+                      <div key={genreId || index}>
+                        <strong>Genre: </strong>
+                      <span className="podcast-genre">
+                        {genreName}
                       </span>
                       </div>
                     );
