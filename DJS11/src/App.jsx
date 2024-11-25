@@ -11,6 +11,10 @@ function App() {
   const [selectedPodcast, setSelectedPodcast] = useState(null);
   //State to manage the modal's visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //State to track the selected season (default to first season)
+  const [selectedSeason, setSelectedSeason] = useState(0);
+  //State to store the episode of the selected season
+  const [episodes, setEpisodes] = useState([]);
 
     // Fetch the array of podcasts with a useEffect
     useEffect(() => {
@@ -37,29 +41,60 @@ function App() {
   const openModal = (podcast) => {
     setSelectedPodcast(podcast);
     setIsModalOpen(true);
+    fetchPodcastDetails(podcast.id);
   };
 
   // Handle closing the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPodcast(null);
+    //Resets the episodes when the modal is closed
+    setEpisodes([]);
+    //Resets the selected season back to default (which is season 1)
+    setSelectedSeason(0);
   };
 
-  const fetchPodcastDetails = async () => {
+  //Fetch the podcast details (seasons and episodes) based on their ID
+  const fetchPodcastDetails = async (podcastId) => {
     try {
-      console.log('Fetching details for podcast ID: 10716');
-      const response = await fetch('https://podcast-api.netlify.app/id/10716');
+      console.log(`Fetching details for podcast ID: ${podcastId}`);
+      const response = await fetch(`https://podcast-api.netlify.app/id/${podcastId}`);
       const detailedData = await response.json();
-      console.log('Detailed podcast data:', detailedData); // Log the detailed response to the console
-    } catch (error) {
+      //console log for if successful
+      console.log('Detailed podcast data:', detailedData);
+      //Set the selected podcast with the detailed data
+      //validate if seasons is an array
+      if (Array.isArray(detailedData.seasons)) {
+      setSelectedPodcast(detailedData);
+      //Set episodes of the first season as the default
+      setEpisodes(detailedData.seasons[0]?.episodes || []);
+      } else {
+        //add a console error to test if data is not an array
+        console.error("Seasons data is not an array")
+      }
+      //catch error incase the request fails
+      } catch (error) {
       console.error('Error fetching detailed data:', error);
+      }
+    };
+
+  //Handle the season change
+  const handleSeasonChange = (event) => {
+    const seasonIndex = parseInt(event.target.value);
+    if (selectedPodcast?.seasons) {
+    setSelectedSeason(seasonIndex);
+    setEpisodes(selectedPodcast.seasons[seasonIndex]?.episodes || []);
     }
   };
 
-  // Call fetchPodcastDetails to log the data when the component mounts
+  //this useEffect ensures the seasons array is available before trying  to render it
   useEffect(() => {
-    fetchPodcastDetails();
-  }, []);
+    if (selectedPodcast && Array.isArray(selectedPodcast.seasons)) {
+      //If the first season exists, then set the first seasons episodes by default
+      setEpisodes(selectedPodcast.seasons[0]?.episodes || []);
+    }
+    //hook runs whenever selectedPodcast changes
+  }, [selectedPodcast]);
 
 
   return (
@@ -88,7 +123,7 @@ function App() {
           <p><strong>Description:</strong> {selectedPodcast.description}</p>
                 <div className="podcast-genres">
                   {selectedPodcast.genres && selectedPodcast.genres.length > 0 ? (
-                  selectedPodcast.genres.map((genreId) => {
+                  selectedPodcast.genres.map((genreId, index) => {
                     // Map genreId to genre name based on the readme
                     const genreNames = {
                       1: "Personal Growth",
@@ -104,7 +139,7 @@ function App() {
 
                     return (
                       <div><strong>Genre</strong>
-                      <span key={genreId} className="podcast-genre">
+                      <span key={genreId || index} className="podcast-genre">
                         {genreNames[genreId] || "Unknown Genre"}
                       </span>
                       </div>
@@ -114,7 +149,35 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
-                <p><strong>Seasons:{selectedPodcast.seasons}</strong></p>
+              <label htmlFor="season-select">Select Season:</label>
+                <select id="season-select" value={selectedSeason} onChange={handleSeasonChange}>
+                  {Array.isArray(selectedPodcast?.seasons) && selectedPodcast.seasons.length > 0 ? (
+                  selectedPodcast.seasons.map((season, index) => (
+                    <option key={season.season || season.id || index} value={index}>
+                      {season.title}
+                    </option>
+                  ))
+                  ) : (
+                    <option disable>No seasons available</option>
+                  )}
+                </select>
+
+                <div className="episodes-list">
+                  {episodes.length > 0 ? (
+                    episodes.map((episode) => (
+                      <div key={episode.episode} className="episode">
+                        <h5>Episode {episode.episode}: {episode.title}</h5>
+                        <p>{episode.description}</p>
+                        <audio controls>
+                          <source src={episode.file} type="audio/mp3" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div> 
+                    ))
+                  ) : (
+                    <p>No episodes available for this season</p>
+                  )}
+                </div>
                 <button onClick={closeModal}>Close</button>
 
           </div>

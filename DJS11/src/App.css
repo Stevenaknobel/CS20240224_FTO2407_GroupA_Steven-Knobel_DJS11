@@ -94,3 +94,8 @@ h1 {
 font-size:xx-large;
 color: rgb(1, 1, 66);
 }
+
+.episodes-list {
+  overflow-y: auto;
+  max-height: 500px;
+}
