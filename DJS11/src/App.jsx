@@ -19,6 +19,10 @@ function App() {
   const [podcastGenres, setPodcastGenres] = useState({});
   //State for the currently selected genres based on the open modal
   const [selectedGenres, setSelectedGenres] = useState([]);
+  //State to store selected episode for audio player
+  const [selectedEpisode, setSelectedEpisode] = useState(null);
+  //State for if audio is playing or not
+  const [isPlaying, setIsPlaying] = useState(false);
 
 
     // Fetch the array of podcasts with a useEffect
@@ -71,6 +75,14 @@ function App() {
     //Resets the selected season back to default (which is season 1)
     setSelectedSeason(0);
   };
+
+  //Handle the episode click
+  const handleEpisodeClick = (episode) => {
+    //Set the selected episode based on the click
+    setSelectedEpisode(episode);
+    //Start the audio player
+    setIsPlaying(true);
+  }
 
   //Fetch the podcast details (seasons and episodes) based on their ID
   const fetchPodcastDetails = async (podcastId) => {
@@ -192,12 +204,10 @@ function App() {
                   {episodes.length > 0 ? (
                     episodes.map((episode) => (
                       <div key={episode.episode} className="episode">
-                        <h5>Episode {episode.episode}: {episode.title}</h5>
+                        <h5 onClick={() => handleEpisodeClick(episode)} style={{cursor: "pointer"}}>
+                          Episode {episode.episode}: {episode.title}
+                          </h5>
                         <p>{episode.description}</p>
-                        <audio controls>
-                          <source src={episode.file} type="audio/mp3" />
-                          Your browser does not support the audio element.
-                        </audio>
                       </div> 
                     ))
                   ) : (
@@ -207,6 +217,19 @@ function App() {
                 <button onClick={closeModal}>Close</button>
 
           </div>
+        </div>
+      )}
+
+      {selectedEpisode && (
+        <div className="audio-player">
+          <h3>Now Playing: {selectedEpisode.title}</h3>
+          <audio controls autoPlay={isPlaying} onEnded={() => setIsPlaying(false)}>
+            <source src={selectedEpisode.file} type="audio/mp3"/>
+            Your browser does not support that audio element
+          </audio>
+          <button onClick={() => setIsPlaying(!isPlaying)}>
+            {isPlaying ? "Pause" : "Play"}
+          </button>
         </div>
       )}
     </>
