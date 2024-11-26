@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import './App.css'
 
-function Navbar({ podcasts, setFilteredPodcasts}) {
+function Navbar({ podcasts, podcastGenres, setFilteredPodcasts}) {
 //State to store the selected genre
-const [seletedGenre, setSelectedGenre] = useState('')
-//List of static genre names as these dont change
-const genreNames = {
+const [selectedGenre, setSelectedGenre] = useState('')
+
+  // List of static genre names
+  const genreNames = {
     1: "Personal Growth",
     2: "Investigative Journalism",
     3: "History",
@@ -15,7 +16,7 @@ const genreNames = {
     7: "Fiction",
     8: "News",
     9: "Kids and Family"
-};
+  };
 
 //Handle genre selection
 const handleGenreSelect = (genre) => {
@@ -25,14 +26,25 @@ const handleGenreSelect = (genre) => {
 
 //Filter podcasts based on the selected genre
 const filterPodcastsByGenre = (genre) => {
+    if (!podcastGenres) {
+        console.error("podcastGenres is not defined!");
+        return;
+      }
     if (genre) {
-        const filtered = podcasts.filter((podcast) =>
-        podcast.genres.includes(parseInt(genre))
+        //make sure ID is a number
+        const genreNumber = parseInt(genre);
+        //get all podcast ids whose genres include the selected genre
+        const filteredPodcastIds = Object.keys(podcastGenres).filter(podcastId => {
+            return podcastGenres[podcastId].includes(genreNumber);
+        });
+        //Now, filter the podcasts based on these IDs
+        const filtered = podcasts.filter(podcast =>
+            filteredPodcastIds.includes(podcast.id.toString())
     );
     setFilteredPodcasts(filtered);
     } else {
-        //reset filtering if no genre selected
-        setFilteredPodcasts(podcasts);
+    //reset filtering if no genre selected
+    setFilteredPodcasts(podcasts);
     }
 };
 
@@ -41,19 +53,22 @@ return (
         <h1>NavBar</h1>
         <div className="genre-buttons">
             <button
-            className="genre-button"
-            onClick={() => handleGenreSelect("")}
-            >All Genres
-            </button>
-            <button className="genre-button" onClick={() => handleGenreSelect(1)}>Personal Growth</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(2)}>Investigative Journalism</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(3)}>History</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(4)}>Comedy</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(5)}>Entertainment</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(6)}>Business</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(7)}>Fiction</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(8)}>News</button>
-            <button className="genre-button" onClick={() => handleGenreSelect(9)}>Kids and Family</button>
+            // Highlight the "All Genres" button
+        className={`genre-button ${selectedGenre === '' ? 'active' : ''}`} 
+        onClick={() => handleGenreSelect('')}
+      >
+        All Genres
+      </button>
+      {Object.keys(genreNames).map((genreId) => (
+        <button
+          key={genreId}
+          // Highlight the selected genre button
+          className={`genre-button ${selectedGenre === genreId ? 'active' : ''}`} 
+          onClick={() => handleGenreSelect(genreId)}
+        >
+          {genreNames[genreId]}
+        </button>
+      ))}
         </div>
     </div>
 );

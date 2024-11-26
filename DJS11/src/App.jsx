@@ -18,7 +18,7 @@ function App() {
   const [episodes, setEpisodes] = useState([]);
   //State to store ALL the genres from the original API request and not the second one
   const [podcastGenres, setPodcastGenres] = useState({});
-    //State to store ALL the seasons from the original API request and not the second one
+  //State to store ALL the seasons from the original API request and not the second one
   const [podcastSeasons, setPodcastSeasons] = useState({});
   //State for the currently selected genres based on the open modal
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -37,7 +37,7 @@ function App() {
   //State to store filtered podcasts
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   
-
+console.log (podcastGenres)
 
   //Create a ref to control the audio element directly
   const audioRef = useRef(null);
@@ -193,6 +193,8 @@ function App() {
         <Navbar
         //passing podcasts prop to Navbar
         podcasts={podcasts}
+        //passing podcastGenres
+        podcastGenres={podcastGenres}
         //passing function to update filtered podcasts
         setFilteredPodcasts={setFilteredPodcasts}
         />
@@ -200,8 +202,8 @@ function App() {
           {loading ? (
             <p className="loading">Loading Podcasts...</p>
           ) : (
-          podcasts.length > 0 ? (
-            podcasts
+          filteredPodcasts.length > 0 ? (
+            filteredPodcasts
             //sort the podcasts alphabetically
             .sort((a, b) => a.title.localeCompare(b.title))
             //map the podcasts from the array

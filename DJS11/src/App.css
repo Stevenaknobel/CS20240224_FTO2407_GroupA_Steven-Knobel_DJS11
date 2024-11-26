@@ -308,3 +308,7 @@ gap: 10px;
 .genre-button:hover {
   background-color: #005bb5;
 }
+
+.genre-button.active {
+  background-color: #00b527;
+}
