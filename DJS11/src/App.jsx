@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Navbar from './Navbar'
 
 function App() {
 
@@ -183,7 +184,7 @@ function App() {
   return (
     <>
       <div className="podcasts-container">
-        <h1>Podcasts list</h1>
+        <Navbar/>
         <div className="podcasts-list">
           {loading ? (
             <p className="loading">Loading Podcasts...</p>
