@@ -1,7 +1,8 @@
 #root {
   margin: 0;
   text-align: center;
-  width: 100%
+  width: 100%;
+  color: rgb(1, 1, 66);
 }
 /* General styling for podcast list */
 .podcasts-container {
@@ -87,17 +88,40 @@ button:hover {
   margin-top: 10px;
   padding-left: 0;
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap:5px;
 }
 
 /*individual styling for each genre*/
 .podcast-genre {
- /* Ensures each genre is on a new line */
-  display: block;
+display: inline-block;
+padding: 5px 5px;
+background-color: #f0f0f0;
+border: 1px solid #ccc;
+border-radius: 8px;
+color: rgb(1, 1, 66);
+font-size: medium;
+text-align: center;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.podcast-genre:hover {
+  background-color:#0073e6;
+  color: white;
+  border-color: #005bb5;
 }
 
 h1 {
 font-size:xx-large;
 color: rgb(1, 1, 66);
+}
+
+h2 {
+  font-size:xx-large;
+  color: rgb(1, 1, 66);
 }
 
 /*disable body scrolling when the modal is open*/

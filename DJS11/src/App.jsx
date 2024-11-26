@@ -207,7 +207,6 @@ function App() {
 
                     return (
                       <div key={genreId || index}>
-                        <strong>Genre: </strong>
                       <span className="podcast-genre">
                         {genreName}
                       </span>
@@ -218,7 +217,7 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
-              <label htmlFor="season-select">Select Season:</label>
+              <label htmlFor="season-select"><strong>Select Season:</strong></label>
                 <select id="season-select" value={selectedSeason} onChange={handleSeasonChange}>
                   {Array.isArray(selectedPodcast?.seasons) && selectedPodcast.seasons.length > 0 ? (
                   selectedPodcast.seasons.map((season, index) => (
