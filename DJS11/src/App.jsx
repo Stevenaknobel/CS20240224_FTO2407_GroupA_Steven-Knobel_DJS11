@@ -17,6 +17,8 @@ function App() {
   const [episodes, setEpisodes] = useState([]);
   //State to store ALL the genres from the original API request and not the second one
   const [podcastGenres, setPodcastGenres] = useState({});
+    //State to store ALL the seasons from the original API request and not the second one
+  const [podcastSeasons, setPodcastSeasons] = useState({});
   //State for the currently selected genres based on the open modal
   const [selectedGenres, setSelectedGenres] = useState([]);
   //State to store selected episode for audio player
@@ -42,15 +44,21 @@ function App() {
           const data = await response.json();
           //console log for if successful
           console.log('Fetched previews:', data);
-          //Save the genres from the first API response by its ID
+          //Save the genres and seasons from the first API response by its ID
           const genresMap = {};
+          const seasonsMap = {};
           data.forEach(podcast => {
-            //Store genres in the map by the podcasts ID
+          //Store genres in the map by the podcasts ID
             genresMap[podcast.id] = podcast.genres;
+          //Store the seasons if podcast has seasons
+          if (typeof podcast.seasons === 'number') {
+            seasonsMap[podcast.id] = podcast.seasons;
+          }
           });
 
-          //save the genres to state
+          //save the genres and seasons to state based on the initial API call
           setPodcastGenres(genresMap);
+          setPodcastSeasons(seasonsMap);
           //set the fetched data to state
           setPodcasts(data);
           //Set isDataLoaded to true once the podcast information is fetched
@@ -161,7 +169,6 @@ function App() {
     //hook runs whenever selectedPodcast changes
   }, [selectedPodcast]);
 
-
   return (
     <>
       <div className="podcasts-container">
@@ -178,10 +185,10 @@ function App() {
                 <div className="podcast-image-container">
                   <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
                 </div>
-                {isDataLoaded && podcast.title && (
+                {isDataLoaded && podcast.title && podcastSeasons[podcast.id] && (
                   <div className="podcast-info">
                   <h3>{podcast.title}</h3>
-                  <p>Seasons: {podcast.seasons?.length || 0}</p>
+                  <p><strong>Seasons:</strong> {podcastSeasons[podcast.id] || 0}</p>
                   <button>Click to See More</button>
                 </div>
                 )}
