@@ -100,9 +100,6 @@ font-size:xx-large;
 color: rgb(1, 1, 66);
 }
 
-.episodes-list {
-  overflow-y: auto;
-}
 /*disable body scrolling when the modal is open*/
 body.modal-open {
   overflow: hidden;
@@ -173,4 +170,8 @@ body.modal-open {
   color: #555;
   margin-left: 20px;
   display: block;
+}
+
+.modal-overlay .modal-content {
+  overflow-y: auto;
 }
