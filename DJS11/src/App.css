@@ -24,13 +24,33 @@
   position: relative;
   cursor: pointer;
   max-width: 250px;
+  height: 250px;
   width: 100%;
+  perspective: 1000px;
+}
+
+/* This container holds both the front and back sides */
+.podcast-card-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* Ensures both sides are rendered in 3D space */
+  transform-style: preserve-3d; 
+  transition: transform 0.6s;
 }
 
 /*styling for the podcast image*/
 .podcast-image-container {
-  position: relative;
+   /* Hide the back of the image */
+  backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .podcast-image {
   width: 100%;
   height: auto;
@@ -38,6 +58,40 @@
   max-height: 250px;
   object-fit: cover;
   border-radius: 10px;
+}
+
+.podcast-info {
+   /* Hide the back of the info */
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+   /* Background color for info */
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  text-align: center;
+   /* Initially hide the info */
+  opacity: 0;
+  /* Rotate it so it's initially hidden */
+  transform: rotateY(180deg);
+}
+
+/* Hover effect: Flip to show the info */
+.podcast-card:hover .podcast-card-inner {
+  /* Flip the card */
+  transform: rotateY(180deg); 
+}
+
+/* Show the podcast info when hovered */
+.podcast-card:hover .podcast-info {
+  /* Make the info visible when hovered */
+  opacity: 1; 
 }
 
 /* Modal styles */
@@ -121,6 +175,11 @@ color: rgb(1, 1, 66);
 
 h2 {
   font-size:xx-large;
+  color: rgb(1, 1, 66);
+}
+
+h3 {
+  font-size:x-large;
   color: rgb(1, 1, 66);
 }
 

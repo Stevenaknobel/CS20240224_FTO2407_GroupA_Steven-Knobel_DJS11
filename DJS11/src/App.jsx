@@ -25,6 +25,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   //State to track which episodes are being previewed
   const [expandedEpisode, setExpandedEpisode] = useState(null);
+  //State to store when data is loaded to ensure correct rendering in the dom
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   
   //Create a ref to control the audio element directly
   const audioRef = useRef(null);
@@ -51,6 +53,8 @@ function App() {
           setPodcastGenres(genresMap);
           //set the fetched data to state
           setPodcasts(data);
+          //Set isDataLoaded to true once the podcast information is fetched
+          setIsDataLoaded(true);
           //catch error incase the request fails
         } catch (error) {
           console.error('Error fetching previews:', error);
@@ -170,8 +174,17 @@ function App() {
             //map the podcasts from the array
             .map((podcast) => (
               <div key={podcast.id} className="podcast-card" onClick={() => openModal(podcast)}>
+                <div className="podcast-card-inner">
                 <div className="podcast-image-container">
                   <img src={podcast.image} alt={podcast.title} className="podcast-image"/>
+                </div>
+                {isDataLoaded && podcast.title && (
+                  <div className="podcast-info">
+                  <h3>{podcast.title}</h3>
+                  <p>Seasons: {podcast.seasons?.length || 0}</p>
+                  <button>Click to See More</button>
+                </div>
+                )}
                 </div>
               </div>
           ))
