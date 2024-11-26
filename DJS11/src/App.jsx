@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -26,6 +26,8 @@ function App() {
   //State to track which episodes are being previewed
   const [expandedEpisode, setExpandedEpisode] = useState(null);
   
+  //Create a ref to control the audio element directly
+  const audioRef = useRef(null);
 
 
     // Fetch the array of podcasts with a useEffect
@@ -95,12 +97,23 @@ function App() {
     if (selectedEpisode === episode && isPlaying) {
       //pause audio if already playing
       setIsPlaying(false);
-    }
+    } else {
     //Set the selected episode for audio
     setSelectedEpisode(episode);
     //Start playing the audio
     setIsPlaying(true);
+    }
   };
+//Useeffect to manipulate the audio player around the pause/playing
+  useEffect(() => {
+    if (selectedEpisode && audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying, selectedEpisode]);
 
   //Fetch the podcast details (seasons and episodes) based on their ID
   const fetchPodcastDetails = async (podcastId) => {
@@ -265,6 +278,7 @@ function App() {
         <div className="audio-player">
           <h3>Now Playing: {selectedEpisode.title}</h3>
           <audio 
+          ref={audioRef}
           controls
           autoPlay={isPlaying} 
           //automatically stop the audio player when the episode ends
