@@ -37,7 +37,6 @@ function App() {
   //State to store filtered podcasts
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   
-console.log (podcastGenres)
 
   //Create a ref to control the audio element directly
   const audioRef = useRef(null);
@@ -204,8 +203,6 @@ console.log (podcastGenres)
           ) : (
           filteredPodcasts.length > 0 ? (
             filteredPodcasts
-            //sort the podcasts alphabetically
-            .sort((a, b) => a.title.localeCompare(b.title))
             //map the podcasts from the array
             .map((podcast) => (
               <div key={podcast.id} className="podcast-card" onClick={() => openModal(podcast)}>
