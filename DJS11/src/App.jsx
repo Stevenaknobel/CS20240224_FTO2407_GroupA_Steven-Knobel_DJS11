@@ -34,7 +34,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   //Loading state for the second API request when open the modal
   const [isFetchingDetails, setIsFetchingDetails] = useState(false);
+  //State to store filtered podcasts
+  const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   
+
+
   //Create a ref to control the audio element directly
   const audioRef = useRef(null);
 
@@ -70,6 +74,8 @@ function App() {
           setIsDataLoaded(true);
           //Set loading data to false after data is fetched
           setLoading(false);
+          //initially show all podcasts
+          setFilteredPodcasts(data);
           //catch error incase the request fails
         } catch (error) {
           console.error('Error fetching previews:', error);
@@ -184,7 +190,12 @@ function App() {
   return (
     <>
       <div className="podcasts-container">
-        <Navbar/>
+        <Navbar
+        //passing podcasts prop to Navbar
+        podcasts={podcasts}
+        //passing function to update filtered podcasts
+        setFilteredPodcasts={setFilteredPodcasts}
+        />
         <div className="podcasts-list">
           {loading ? (
             <p className="loading">Loading Podcasts...</p>

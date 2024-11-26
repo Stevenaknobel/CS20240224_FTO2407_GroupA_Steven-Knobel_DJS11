@@ -287,3 +287,24 @@ body.modal-open {
   font-size: xx-large;
   font-weight: bolder;
 }
+
+.genre-buttons {
+margin-top: 10px;
+display:flex;
+justify-content: center;
+gap: 10px;
+}
+
+.genre-button {
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: larger;
+}
+
+.genre-button:hover {
+  background-color: #005bb5;
+}
