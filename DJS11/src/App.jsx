@@ -29,6 +29,10 @@ function App() {
   const [expandedEpisode, setExpandedEpisode] = useState(null);
   //State to store when data is loaded to ensure correct rendering in the dom
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  //Loading state for the initial data fetch
+  const [loading, setLoading] = useState(true);
+  //Loading state for the second API request when open the modal
+  const [isFetchingDetails, setIsFetchingDetails] = useState(false);
   
   //Create a ref to control the audio element directly
   const audioRef = useRef(null);
@@ -63,9 +67,12 @@ function App() {
           setPodcasts(data);
           //Set isDataLoaded to true once the podcast information is fetched
           setIsDataLoaded(true);
+          //Set loading data to false after data is fetched
+          setLoading(false);
           //catch error incase the request fails
         } catch (error) {
           console.error('Error fetching previews:', error);
+          setLoading(false);
         }
       };
   //call the fetchPreviews const
@@ -73,14 +80,16 @@ function App() {
     }, []);  // Empty dependency array means this will run once after the component mounts
 
   // Handle opening the modal and setting the selected podcast
-  const openModal = (podcast) => {
+  const openModal = async (podcast) => {
+    //Set loading state to true when the modal is clicked
+    setIsFetchingDetails(true);
     setSelectedPodcast(podcast);
     setIsModalOpen(true);
     //use the stored genres from the first API request
     const podcastGenresForSelected = podcastGenres[podcast.id] || [];
     //this ensure that the genres are not pulling from the second API as they are different
     setSelectedGenres(podcastGenresForSelected);
-    fetchPodcastDetails(podcast.id);
+    await fetchPodcastDetails(podcast.id);
   };
 
   // Handle closing the modal
@@ -148,6 +157,8 @@ function App() {
       //catch error incase the request fails
       } catch (error) {
       console.error('Error fetching detailed data:', error);
+      } finally {
+        setIsFetchingDetails(false);
       }
     };
 
@@ -174,7 +185,10 @@ function App() {
       <div className="podcasts-container">
         <h1>Podcasts list</h1>
         <div className="podcasts-list">
-          {podcasts.length > 0 ? (
+          {loading ? (
+            <p className="loading">Loading Podcasts...</p>
+          ) : (
+          podcasts.length > 0 ? (
             podcasts
             //sort the podcasts alphabetically
             .sort((a, b) => a.title.localeCompare(b.title))
@@ -222,7 +236,8 @@ function App() {
               </div>
           ))
           ) : (
-            <p>loading podcasts...</p>
+            <p>No podcasts available</p>
+          )
           )}
         </div>
       </div>
@@ -230,6 +245,10 @@ function App() {
       {isModalOpen && selectedPodcast && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            {isFetchingDetails ? (
+              <p className="loading">Loading podcast details...</p>
+            ) : (
+              <>
           <h2>{selectedPodcast.title}</h2>
           <p><strong>Description:</strong> {selectedPodcast.description}</p>
                 <div className="podcast-genres">
@@ -262,6 +281,8 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
+              </>
+            )}
               <div className="season-select-container">
               <label htmlFor="season-select"><strong>Select Season:</strong></label>
                 <select id="season-select" value={selectedSeason} onChange={handleSeasonChange}>

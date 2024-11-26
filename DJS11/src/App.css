@@ -279,3 +279,11 @@ body.modal-open {
   max-width: 150px;
   height: auto;
 }
+
+.loading {
+  display: flex;
+  color: rgb(1, 1, 66);
+  display: center;
+  font-size: xx-large;
+  font-weight: bolder;
+}
