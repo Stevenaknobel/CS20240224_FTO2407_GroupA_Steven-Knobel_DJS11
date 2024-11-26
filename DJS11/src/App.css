@@ -127,3 +127,50 @@ body.modal-open {
   z-index: 1000; 
   box-sizing: border-box;
 }
+
+.episode-container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.episode-container > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%
+}
+
+/*Pointer on episode title*/
+.episode-title {
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.play-button {
+  padding: 5px 10px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.play-button:hover {
+  background-color: #005bb5;
+}
+
+.episode-description-container {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.episode-description {
+  margin-top: 5px;
+  color: #555;
+  margin-left: 20px;
+  display: block;
+}

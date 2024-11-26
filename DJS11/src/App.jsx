@@ -23,6 +23,9 @@ function App() {
   const [selectedEpisode, setSelectedEpisode] = useState(null);
   //State for if audio is playing or not
   const [isPlaying, setIsPlaying] = useState(false);
+  //State to track which episodes are being previewed
+  const [expandedEpisode, setExpandedEpisode] = useState(null);
+  
 
 
     // Fetch the array of podcasts with a useEffect
@@ -78,11 +81,26 @@ function App() {
 
   //Handle the episode click
   const handleEpisodeClick = (episode) => {
-    //Set the selected episode based on the click
+    if (expandedEpisode === episode) {
+      //hide the description if already expanded
+      setExpandedEpisode(null);
+    } else {
+    //Show the description of the clicked episode
+    setExpandedEpisode(episode);
+    }
+  };
+
+  //Handle the audio playing
+  const handlePlayClick = (episode) => {
+    if (selectedEpisode === episode && isPlaying) {
+      //pause audio if already playing
+      setIsPlaying(false);
+    }
+    //Set the selected episode for audio
     setSelectedEpisode(episode);
-    //Start the audio player
+    //Start playing the audio
     setIsPlaying(true);
-  }
+  };
 
   //Fetch the podcast details (seasons and episodes) based on their ID
   const fetchPodcastDetails = async (podcastId) => {
@@ -203,21 +221,44 @@ function App() {
                 <div className="episodes-list">
                   {episodes.length > 0 ? (
                     episodes.map((episode) => (
-                      <div key={episode.episode} className="episode">
-                        <h5 onClick={() => handleEpisodeClick(episode)} style={{cursor: "pointer"}}>
+                      <div key={episode.episode} className="episode-container">
+                        <div className="episode-title-container">
+                          <button 
+                          className="play-button"
+                          onClick={(e) => {
+                            //prevent triggering the episode description toggle
+                            e.stopPropagation();
+                            //Start playing the selected episode
+                            handlePlayClick(episode);
+                          }}
+                          >
+                            {isPlaying && selectedEpisode === episode ? "Pause" : "Play"}
+                          </button>
+                        <h5 
+                        onClick={() => handleEpisodeClick(episode)} 
+                        className="episode-title"
+                        >
                           Episode {episode.episode}: {episode.title}
                           </h5>
-                        <p>{episode.description}</p>
-                      </div> 
+                          </div>
+
+                        <div className="episode-description-container">
+                      {expandedEpisode === episode && (
+                        <p className="episode-description">
+                        {episode.description}
+                        </p>
+
+                      )}
+                         </div>
+                      </div>
                     ))
                   ) : (
                     <p>No episodes available for this season</p>
                   )}
                 </div>
                 <button onClick={closeModal}>Close</button>
-
+            </div>
           </div>
-        </div>
       )}
 
       {selectedEpisode && (
