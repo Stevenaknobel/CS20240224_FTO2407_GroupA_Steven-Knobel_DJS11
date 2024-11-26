@@ -192,7 +192,6 @@ function App() {
                   <div className="podcast-genres">
                   {podcastGenres[podcast.id] && podcastGenres[podcast.id].length > 0 ? (
                     podcastGenres[podcast.id].map((genreId, index) => {
-                      console.log("Genre ID:", genreId);
                       const genreNames = {
                         1: "Personal Growth",
                         2: "Investigative Journalism",
@@ -236,7 +235,6 @@ function App() {
                 <div className="podcast-genres">
                   {selectedGenres && selectedGenres.length > 0 ? (
                   selectedGenres.map((genreId, index) => {
-                    console.log("Genre ID:", genreId);
                     // Map genreId to genre name based on the readme
                     const genreNames = {
                       1: "Personal Growth",
@@ -264,6 +262,7 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
+              <div className="season-select-container">
               <label htmlFor="season-select"><strong>Select Season:</strong></label>
                 <select id="season-select" value={selectedSeason} onChange={handleSeasonChange}>
                   {Array.isArray(selectedPodcast?.seasons) && selectedPodcast.seasons.length > 0 ? (
@@ -276,6 +275,16 @@ function App() {
                     <option disable>No seasons available</option>
                   )}
                 </select>
+                {selectedPodcast?.seasons[selectedSeason]?.image && (
+                  <div className="season-image-container">
+                    <img
+                      src={selectedPodcast.seasons[selectedSeason].image}
+                      alt={`Season ${selectedPodcast.seasons[selectedSeason].season}`}
+                      className="season-image"
+                      />
+                      </div>
+                )}
+                </div>
 
                 <div className="episodes-list">
                   {episodes.length > 0 ? (

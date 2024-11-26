@@ -160,6 +160,7 @@ text-align: center;
 font-weight: bold;
 cursor: pointer;
 transition: all 0.3s ease;
+gap: 10px;
 }
 
 .podcast-genre:hover {
@@ -257,4 +258,24 @@ body.modal-open {
 
 .modal-overlay .modal-content {
   overflow-y: auto;
+}
+
+.season-select-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.season-select {
+  padding: 10px;
+  max-height: 10px;
+}
+
+.season-image-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.season-image {
+  max-width: 150px;
+  height: auto;
 }
