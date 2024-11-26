@@ -281,6 +281,9 @@ function App() {
                   <span>No genres available</span>
                 )}
               </div>
+              {selectedPodcast && selectedPodcast.updated && (
+                <p><strong>Last Updated:</strong> {selectedPodcast.updated.substring(0,10)}</p>
+              )}
               </>
             )}
               <div className="season-select-container">
