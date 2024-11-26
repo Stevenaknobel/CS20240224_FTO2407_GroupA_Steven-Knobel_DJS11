@@ -188,8 +188,35 @@ function App() {
                 {isDataLoaded && podcast.title && podcastSeasons[podcast.id] && (
                   <div className="podcast-info">
                   <h3>{podcast.title}</h3>
-                  <p><strong>Seasons:</strong> {podcastSeasons[podcast.id] || 0}</p>
-                  <button>Click to See More</button>
+                  <h4><strong>Seasons: {podcastSeasons[podcast.id] || 0}</strong></h4>
+                  <div className="podcast-genres">
+                  {podcastGenres[podcast.id] && podcastGenres[podcast.id].length > 0 ? (
+                    podcastGenres[podcast.id].map((genreId, index) => {
+                      console.log("Genre ID:", genreId);
+                      const genreNames = {
+                        1: "Personal Growth",
+                        2: "Investigative Journalism",
+                        3: "History",
+                        4: "Comedy",
+                        5: "Entertainment",
+                        6: "Business",
+                        7: "Fiction",
+                        8: "News",
+                        9: "Kids and Family"
+                      };
+
+                      const genreName = genreNames[genreId] || "Unknown Genre";
+
+                      return (
+                        <div key={genreId || index}>
+                          <span className="podcast-genre">{genreName}</span>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <span>No genres available</span>
+                  )}
+              </div>
                 </div>
                 )}
                 </div>
