@@ -16,6 +16,7 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   justify-items: center;
   gap:5px;
+  margin-top: 40px;
   padding: 20px;
 }
 
@@ -106,6 +107,7 @@
   justify-content: center;
   align-items: flex-start;
   padding-top:20px;
+  z-index: 999; 
 }
 
 .modal-content {
@@ -167,11 +169,6 @@ gap: 10px;
   background-color:#0073e6;
   color: white;
   border-color: #005bb5;
-}
-
-h1 {
-font-size:xx-large;
-color: rgb(1, 1, 66);
 }
 
 h2 {
@@ -311,4 +308,60 @@ gap: 10px;
 
 .genre-button.active {
   background-color: #00b527;
+}
+
+.search-input {
+  padding: 15px;
+  font-size:large;
+  border: 1px solid #005bb5;
+  border-radius: 4px;
+  width: 500px;
+  margin-right: 5px;
+}
+
+.sort-dropdown {
+  padding: 15px;
+  font-size:large;
+  border: 1px solid #005bb5;
+  border-radius: 4px;
+  width: auto;
+}
+
+.navbar-container {
+  background-color: #0073e6;
+  display:flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  position: fixed;
+  padding:10px 20px;
+  top:0;
+  left:0;
+  right:0;
+  z-index: 998; 
+}
+
+.navbar-title {
+  font-size:xx-large;
+  color: white;
+  font-weight: bold;
+}
+
+
+.favourite-button {
+  background-color: white;
+  font-size: large;
+  color: #005bb5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.favourite-button:hover {
+  background-color: #005bb5;
+  color: white;
 }

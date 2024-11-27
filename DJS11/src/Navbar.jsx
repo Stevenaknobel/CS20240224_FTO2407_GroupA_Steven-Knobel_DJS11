@@ -81,7 +81,6 @@ const filterPodcasts = (genre, searchQuery, sortOption) => {
 
     //Update the filtered podcasts
     setFilteredPodcasts(filtered);
-    console.log("Podcasts updated:", filtered);
 };
 
 
@@ -93,6 +92,8 @@ const filterPodcasts = (genre, searchQuery, sortOption) => {
 
 return (
     <div>
+        <div className="navbar-container">
+        <h1 className="navbar-title">The Podcast Hotspot</h1>
         <div className="search-sort-container">
         {/* Search Bar */}
         <input
@@ -110,6 +111,10 @@ return (
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
         </select>
+      </div>
+      <div>
+        <button className="favourite-button">Click To View My Favourites</button>
+      </div>
       </div>
         {/* Genre buttons*/}
         <div className="genre-buttons">
