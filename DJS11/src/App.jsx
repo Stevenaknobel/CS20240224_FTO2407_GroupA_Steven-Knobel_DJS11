@@ -142,6 +142,31 @@ function App() {
     }
   }, [isPlaying, selectedEpisode]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      //ensure that the pop up only applies when the audio is playing
+      if (audioRef.current && !audioRef.current.paused) {
+        //show custom warning in browsers native confirmation dialog
+        event.returnValue = "You have a podcast playing. Are you sure you want to leave?";
+      }
+    };
+
+    if (isPlaying) {
+    //attach the beforeunload event listener
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    } else {
+    //remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    }
+
+      //Cleanup the event listener when the component unmounts
+      return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+    //this hook triggers when the isPlaying changes
+  }, [isPlaying]);
+  
+
   //Fetch the podcast details (seasons and episodes) based on their ID
   const fetchPodcastDetails = async (podcastId) => {
     try {
