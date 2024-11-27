@@ -303,7 +303,7 @@ function App() {
                   {Array.isArray(selectedPodcast?.seasons) && selectedPodcast.seasons.length > 0 ? (
                   selectedPodcast.seasons.map((season, index) => (
                     <option key={season.season || season.id || index} value={index}>
-                      {season.title}
+                      {season.title} ({season.episodes?.length || 0} episodes)
                     </option>
                   ))
                   ) : (
