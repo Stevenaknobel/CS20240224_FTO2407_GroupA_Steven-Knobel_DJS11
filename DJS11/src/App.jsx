@@ -46,31 +46,29 @@ function App() {
   //Function to handle favouriting an episode
   const handleFavouriteClick = (episode) => {
     // Create a unique identifier for each favourite by combining podcast name, season, and episode number
-  const favouriteKey = `${selectedPodcast.id}-${selectedSeason}-${episode.episode}`;
+  const favouriteKey = `${selectedPodcast.id}-${selectedSeason}-${episode.episode}-${selectedPodcast.updated}`;
 
   const isAlreadyFavourited = favourites.some(fav => fav.favouriteKey === favouriteKey);
 
-    let updatedFavourites;
+  let updatedFavourites;
 
-    if (isAlreadyFavourited) {
-      // Remove from favourites if already favourited
-      updatedFavourites = favourites.filter(fav => fav.favouriteKey !== favouriteKey);
-    } else {
-      // Add episode to favourites with podcast and season data
-      updatedFavourites = [
-        ...favourites,
-        {
-          episode,
-          // Add podcast name
-          podcastName: selectedPodcast.title,
-           // Add season name
-          season: selectedPodcast.seasons[selectedSeason]?.title,
-          favouriteKey,
-           // Timestamp when favourited
-          timestamp: new Date().toLocaleString() 
-        }
-      ];
-    }
+  if (isAlreadyFavourited) {
+    // Remove the episode from favourites if it's already favourited
+    updatedFavourites = favourites.filter(fav => fav.favouriteKey !== favouriteKey);
+  } else {
+    // Add the episode to favourites
+    updatedFavourites = [
+      ...favourites,
+      {
+        episode,
+        podcastName: selectedPodcast.title,
+        season: selectedPodcast.seasons[selectedSeason]?.title,
+        favouriteKey,
+        timestamp: new Date().toLocaleString(),  // When the episode is added to favourites
+        updated: selectedPodcast.updated,       // Last updated timestamp
+      }
+    ];
+  }
 
     // Update state with the new list of favourites
     setFavourites(updatedFavourites);
@@ -326,7 +324,7 @@ function App() {
               </div>
           ))
           ) : (
-            <p>No podcasts available</p>
+            <h1>No podcasts available</h1>
           )
           )}
         </div>
@@ -336,7 +334,16 @@ function App() {
           {/* Route for the Favourites page */}
           <Route 
             path="/favourites" 
-            element={<Favourites favourites={favourites} />} 
+            element={<Favourites
+                podcasts={podcasts}
+                podcastGenres={podcastGenres}
+                setFilteredPodcasts={setFilteredPodcasts}
+               favourites={favourites}
+               selectedEpisode={selectedEpisode}
+               isPlaying={isPlaying}
+               handlePlayClick={handlePlayClick}
+               audioRef={audioRef}
+               />} 
           />
         </Routes>
       </div>
@@ -441,7 +448,7 @@ function App() {
                               handleFavouriteClick(episode);
                             }}
                           >
-                            {favourites.some(fav => fav.favouriteKey === `${selectedPodcast.id}-${selectedSeason}-${episode.episode}`) 
+                            {favourites.some(fav => fav.favouriteKey === `${selectedPodcast.id}-${selectedSeason}-${episode.episode}-${selectedPodcast.updated}`) 
                             ? "Click to Unfavourite" 
                             : "Click to Favourite"}
                           </button>
@@ -465,8 +472,10 @@ function App() {
           </div>
       )}
 
-      {selectedEpisode && (
+
         <div className="audio-player">
+        {selectedEpisode && (
+          <>
           <h3>Now Playing: {selectedEpisode.title}</h3>
           <audio 
           ref={audioRef}
@@ -480,9 +489,10 @@ function App() {
             <source src={selectedEpisode.file} type="audio/mp3"/>
             Your browser does not support that audio element
           </audio>
-        </div>
-      )}
+          </>
 
+      )}
+        </div>
     </>
   );
 }

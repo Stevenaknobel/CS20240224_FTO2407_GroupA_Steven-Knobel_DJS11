@@ -211,6 +211,7 @@ body.modal-open {
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+  border: 2px solid #007bff;
 }
 
 .episode-container > div {
@@ -396,10 +397,7 @@ margin-top: 100px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 60px;
+  margin-right: 30px;
 }
 
 .home-button:hover {
@@ -407,6 +405,24 @@ margin-top: 100px;
   color: white;
 }
 
-.search-sort-container {
+
+.favourites-styling ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.favourites-styling li {
   display: flex;
+  flex-direction: column; /* Stack items vertically */
+  padding: 10px;
+  border: 2px solid #007bff;
+  text-align: center; /* Center text inside list items */
+}
+
+.favourites-styling li h3 {
+  margin: 0;
+}
+
+.favourites-styling li p {
+  margin: 0;
 }

@@ -127,7 +127,11 @@ return (
       </div>
       <div className="navbar-buttons">
 
-      <Link to="/favourites">
+      <Link to="/favourites" state={{     
+        selectedGenre, 
+        searchQuery, 
+        sortOption
+         }}>
         <button className="favourite-button">Click To View My Favourites</button>
         </Link>
         <button onClick={handleDeleteFavouritesClick} className="delete-favourite-button">Delete Favourites</button>
