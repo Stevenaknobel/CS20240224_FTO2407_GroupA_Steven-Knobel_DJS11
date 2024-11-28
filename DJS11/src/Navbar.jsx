@@ -91,7 +91,7 @@ const filterPodcasts = (genre, searchQuery, sortOption) => {
     }, [podcasts, podcastGenres, selectedGenre, searchQuery, sortOption]);
 
 return (
-    <div>
+    <div className="navbar-genre-container">
         <div className="navbar-container">
         <h1 className="navbar-title">The Podcast Hotspot</h1>
         <div className="search-sort-container">
