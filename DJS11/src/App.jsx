@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './Navbar'
+import { Routes, Route } from 'react-router-dom';
+import Favourites from './Favourites';
 
 function App() {
 
@@ -36,6 +36,54 @@ function App() {
   const [isFetchingDetails, setIsFetchingDetails] = useState(false);
   //State to store filtered podcasts
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
+  //State to store favourited episodes
+  const [favourites, setFavourites] = useState(() => {
+    // Try to load the favourites from localStorage when the app initializes
+    const savedFavourites = localStorage.getItem('favourites');
+    return savedFavourites ? JSON.parse(savedFavourites) : [];
+  });
+
+  //Function to handle favouriting an episode
+  const handleFavouriteClick = (episode) => {
+    // Create a unique identifier for each favourite by combining podcast name, season, and episode number
+  const favouriteKey = `${selectedPodcast.id}-${selectedSeason}-${episode.episode}`;
+
+  const isAlreadyFavourited = favourites.some(fav => fav.favouriteKey === favouriteKey);
+
+    let updatedFavourites;
+
+    if (isAlreadyFavourited) {
+      // Remove from favourites if already favourited
+      updatedFavourites = favourites.filter(fav => fav.favouriteKey !== favouriteKey);
+    } else {
+      // Add episode to favourites with podcast and season data
+      updatedFavourites = [
+        ...favourites,
+        {
+          episode,
+          // Add podcast name
+          podcastName: selectedPodcast.title,
+           // Add season name
+          season: selectedPodcast.seasons[selectedSeason]?.title,
+          favouriteKey,
+           // Timestamp when favourited
+          timestamp: new Date().toLocaleString() 
+        }
+      ];
+    }
+
+    // Update state with the new list of favourites
+    setFavourites(updatedFavourites);
+
+    // Save the updated favourites to localStorage
+    localStorage.setItem('favourites', JSON.stringify(updatedFavourites));
+  };
+
+  //Function to clear all favourites
+  const clearFavourites = () => {
+    setFavourites([]);
+    localStorage.setItem('favourites', JSON.stringify([]));
+  }
   
 
   //Create a ref to control the audio element directly
@@ -221,7 +269,13 @@ function App() {
         podcastGenres={podcastGenres}
         //passing function to update filtered podcasts
         setFilteredPodcasts={setFilteredPodcasts}
+        clearFavourites={clearFavourites}
         />
+
+        <Routes>
+          <Route
+          path="*"
+          element={
         <div className="podcasts-list">
           {loading ? (
             <p className="loading">Loading Podcasts...</p>
@@ -276,6 +330,15 @@ function App() {
           )
           )}
         </div>
+          }
+          />
+          
+          {/* Route for the Favourites page */}
+          <Route 
+            path="/favourites" 
+            element={<Favourites favourites={favourites} />} 
+          />
+        </Routes>
       </div>
 
       {isModalOpen && selectedPodcast && (
@@ -332,7 +395,7 @@ function App() {
                     </option>
                   ))
                   ) : (
-                    <option disable>No seasons available</option>
+                    <option disabled>No seasons available</option>
                   )}
                 </select>
                 {selectedPodcast?.seasons[selectedSeason]?.image && (
@@ -370,6 +433,19 @@ function App() {
                           </h5>
                           </div>
 
+                          {/* Favourite Button */}
+                          <button
+                            className="favourite-button"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent modal from closing when clicked
+                              handleFavouriteClick(episode);
+                            }}
+                          >
+                            {favourites.some(fav => fav.favouriteKey === `${selectedPodcast.id}-${selectedSeason}-${episode.episode}`) 
+                            ? "Click to Unfavourite" 
+                            : "Click to Favourite"}
+                          </button>
+
                         <div className="episode-description-container">
                       {expandedEpisode === episode && (
                         <p className="episode-description">
@@ -406,8 +482,9 @@ function App() {
           </audio>
         </div>
       )}
+
     </>
-  )
+  );
 }
 
 export default App

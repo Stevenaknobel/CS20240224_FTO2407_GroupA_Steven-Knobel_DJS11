@@ -1,12 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Fuse from 'fuse.js';
+import { Link } from 'react-router-dom';
 
-function Navbar({ podcasts, podcastGenres, setFilteredPodcasts}) {
+function Navbar({ podcasts, podcastGenres, setFilteredPodcasts, clearFavourites}) {
 //State to store the selected genre
 const [selectedGenre, setSelectedGenre] = useState('');
 const [searchQuery, setSearchQuery] = useState('');
 const [sortOption, setSortOption] = useState('a-z');
+
+const handleDeleteFavouritesClick = () => {
+    // Display a confirmation dialog before proceeding
+    const isConfirmed = window.confirm("Are you sure you want to delete all favourites?");
+    if (isConfirmed) {
+      // If confirmed, call the clearFavourites function
+      clearFavourites();
+    }
+  };
 
   // List of static genre names
   const genreNames = {
@@ -95,6 +105,9 @@ return (
         <div className="navbar-container">
         <h1 className="navbar-title">The Podcast Hotspot</h1>
         <div className="search-sort-container">
+        <Link to="/">
+        <button className="home-button">Home</button>
+        </Link>
         {/* Search Bar */}
         <input
           type="text"
@@ -112,8 +125,12 @@ return (
           <option value="oldest">Oldest</option>
         </select>
       </div>
-      <div>
+      <div className="navbar-buttons">
+
+      <Link to="/favourites">
         <button className="favourite-button">Click To View My Favourites</button>
+        </Link>
+        <button onClick={handleDeleteFavouritesClick} className="delete-favourite-button">Delete Favourites</button>
       </div>
       </div>
         {/* Genre buttons*/}

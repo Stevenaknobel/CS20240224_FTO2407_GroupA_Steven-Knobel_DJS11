@@ -349,6 +349,27 @@ margin-top: 100px;
   font-weight: bold;
 }
 
+.navbar-buttons {
+  display: flex;
+}
+
+.delete-favourite-button {
+  background-color: white;
+  font-size: large;
+  color: #005bb5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.delete-favourite-button:hover {
+  background-color: #b50000;
+  color: white;
+}
 
 .favourite-button {
   background-color: white;
@@ -366,4 +387,26 @@ margin-top: 100px;
 .favourite-button:hover {
   background-color: #005bb5;
   color: white;
+}
+
+.home-button {
+  background-color: white;
+  font-size: large;
+  color: #005bb5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 60px;
+}
+
+.home-button:hover {
+  background-color: #005bb5;
+  color: white;
+}
+
+.search-sort-container {
+  display: flex;
 }
