@@ -96,8 +96,6 @@ function App() {
           console.log('Fetching podcast previews...');
           const response = await fetch('https://podcast-api.netlify.app/');
           const data = await response.json();
-          //console log for if successful
-          console.log('Fetched previews:', data);
           //Save the genres and seasons from the first API response by its ID
           const genresMap = {};
           const seasonsMap = {};
@@ -219,8 +217,6 @@ function App() {
       console.log(`Fetching details for podcast ID: ${podcastId}`);
       const response = await fetch(`https://podcast-api.netlify.app/id/${podcastId}`);
       const detailedData = await response.json();
-      //console log for if successful
-      console.log('Detailed podcast data:', detailedData);
       //Set the selected podcast with the detailed data
       //validate if seasons is an array
       if (Array.isArray(detailedData.seasons)) {
