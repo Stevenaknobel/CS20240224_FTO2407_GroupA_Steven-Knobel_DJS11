@@ -64,8 +64,8 @@ function App() {
         podcastName: selectedPodcast.title,
         season: selectedPodcast.seasons[selectedSeason]?.title,
         favouriteKey,
-        timestamp: new Date().toLocaleString(),  // When the episode is added to favourites
-        updated: selectedPodcast.updated,       // Last updated timestamp
+        timestamp: new Date().toLocaleString(),
+        updated: selectedPodcast.updated,
       }
     ];
   }
